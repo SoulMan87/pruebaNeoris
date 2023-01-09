@@ -8,9 +8,13 @@ import java.util.Optional;
 public interface ClienteService {
     List<Cliente> encontrarTodosLosClientes();
 
-    Optional<Cliente> encontrarClientePorId(Long id);
+    Optional<Cliente> crearCliente(Cliente cliente);
 
-    Optional<Cliente> guardarCliente(Cliente cliente);
+    Optional<Cliente> actualizarCliente(long idCliente, Cliente cliente);
 
     void borrarClientePorId(Long id);
+
+    Optional<Cliente> obtenerClientePorId(long id);
+
+
 }

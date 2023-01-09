@@ -17,7 +17,7 @@ public interface MovimientoService {
 
     void borrarMovimientoPorId(Long id);
 
-    Optional<Movimiento> optenerMovimientoPorId(long id);
+    Optional<Movimiento> obtenerMovimientoPorId(long id);
 
     List<MovimientoRespuesta> encontrarMovimientosPorFechaUsuario();
 

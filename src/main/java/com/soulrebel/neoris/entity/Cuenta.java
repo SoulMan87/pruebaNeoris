@@ -1,6 +1,7 @@
 package com.soulrebel.neoris.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

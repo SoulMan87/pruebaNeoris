@@ -1,5 +1,6 @@
 package com.soulrebel.neoris.service.impl;
 
+import com.soulrebel.neoris.entity.Cuenta;
 import com.soulrebel.neoris.entity.Movimiento;
 import com.soulrebel.neoris.exception.MovimientoException;
 import com.soulrebel.neoris.model.MovimientoRespuesta;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.soulrebel.neoris.exception.Constantes.MOVIMIENTO_NO_ENCONTRADO;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -32,32 +35,30 @@ public class MovimientoServiceImpl implements MovimientoService {
     @Override
     public Optional<Movimiento> actualizarMovimiento(long idMovimiento, Movimiento movimientoRequest) {
 
-        final var movimiento = repository.findById(idMovimiento)
-                .orElseThrow(() -> new MovimientoException("Movimiento" + idMovimiento));
-        movimiento.setIdMovimiento(movimientoRequest.getIdMovimiento());
-        movimiento.setTipoMovimiento(movimientoRequest.getTipoMovimiento());
-        movimiento.setFecha(movimientoRequest.getFecha());
-        movimiento.setValor(movimientoRequest.getValor());
-        movimiento.setSaldo(movimientoRequest.getSaldo());
+        final Optional<Movimiento> movimiento = repository.findById(idMovimiento);
+        if (movimiento.isPresent()) {
+            return Optional.of(repository.save(buildMovimiento(movimientoRequest)));
+        } else {
+            throw new MovimientoException(MOVIMIENTO_NO_ENCONTRADO);
+        }
 
-        return Optional.of(repository.save(movimiento));
     }
 
     @Override
     public void borrarMovimientoPorId(Long id) {
 
         Movimiento movimiento = repository.findById(id)
-                .orElseThrow(() -> new MovimientoException("Movimiento no existe"));
+                .orElseThrow(() -> new MovimientoException(MOVIMIENTO_NO_ENCONTRADO));
 
         repository.delete(movimiento);
 
     }
 
     @Override
-    public Optional<Movimiento> optenerMovimientoPorId(long id) {
+    public Optional<Movimiento> obtenerMovimientoPorId(long id) {
         var movimiento = repository.findById(id);
         if (movimiento.isEmpty()) {
-            throw new MovimientoException("No se encontró movimiento");
+            throw new MovimientoException(MOVIMIENTO_NO_ENCONTRADO);
         } else {
             return movimiento;
         }
@@ -69,5 +70,15 @@ public class MovimientoServiceImpl implements MovimientoService {
         return repository.encontrarMovimientosPorFechaUsuario();
     }
 
+    private Movimiento buildMovimiento(Movimiento movimiento) {
+        Cuenta cuenta = new Cuenta();
+        return Movimiento.builder()
+                .fecha(movimiento.getFecha())
+                .tipoMovimiento(movimiento.getTipoMovimiento())
+                .saldo(movimiento.getSaldo())
+                .valor(movimiento.getValor())
+                .cuenta(cuenta)
+                .build();
+    }
 
 }
