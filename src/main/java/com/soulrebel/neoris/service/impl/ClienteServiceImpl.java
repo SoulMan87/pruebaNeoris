@@ -53,7 +53,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public void borrarClientePorId(Long id) {
-        Optional<Cliente> cliente = repository.findById(id);
+        final Optional<Cliente> cliente = repository.findById(id);
         if (cliente.isPresent()) {
             repository.delete(cliente.get());
         } else {
@@ -64,7 +64,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Optional<Cliente> obtenerClientePorId(long id) {
-        Optional<Cliente> cliente = repository.findById(id);
+        final var cliente = repository.findById(id);
         return Optional.ofNullable(cliente.orElseThrow(() -> new EntityNotFoundException(CLIENTE_NO_ENCONTRADO)));
     }
 

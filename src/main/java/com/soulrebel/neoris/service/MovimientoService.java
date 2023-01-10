@@ -1,7 +1,7 @@
 package com.soulrebel.neoris.service;
 
 import com.soulrebel.neoris.entity.Movimiento;
-import com.soulrebel.neoris.model.MovimientoRespuesta;
+import com.soulrebel.neoris.model.MovimientosRespuesta;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +19,8 @@ public interface MovimientoService {
 
     Optional<Movimiento> obtenerMovimientoPorId(long id);
 
-    List<MovimientoRespuesta> encontrarMovimientosPorFechaUsuario();
+    List<MovimientosRespuesta> encontrarMovimientosPorFechaUsuario();
+
+    void hacerMovimiento(Long idCuenta, Movimiento movimiento);
 
 }

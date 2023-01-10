@@ -1,6 +1,6 @@
 package com.soulrebel.neoris.controller;
 
-import com.soulrebel.neoris.model.MovimientoRespuesta;
+import com.soulrebel.neoris.model.MovimientosRespuesta;
 import com.soulrebel.neoris.service.MovimientoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class MovimientosController implements IMovimientoController {
 
 
     @Override
-    public ResponseEntity<List<MovimientoRespuesta>> obtenerTodosLosMovimientos() {
+    public ResponseEntity<List<MovimientosRespuesta>> obtenerTodosLosMovimientos() {
 
         return null;
     }

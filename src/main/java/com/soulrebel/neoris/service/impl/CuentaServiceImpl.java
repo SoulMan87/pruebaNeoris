@@ -33,7 +33,7 @@ public class CuentaServiceImpl implements CuentaService {
     @Override
     public Optional<Cuenta> actualizarCuenta(long idCuenta, Cuenta cuentaRequest) {
 
-        Optional<Cuenta> cuenta = repository.findById(idCuenta);
+        final Optional<Cuenta> cuenta = repository.findById(idCuenta);
         if (cuenta.isPresent()) {
             return Optional.of(repository.save(buildCuenta(cuentaRequest)));
         } else {
@@ -43,7 +43,7 @@ public class CuentaServiceImpl implements CuentaService {
 
     @Override
     public void borrarCuentaPorId(Long id) {
-        Optional<Cuenta> cuenta = repository.findById(id);
+        final Optional<Cuenta> cuenta = repository.findById(id);
 
         if (cuenta.isPresent()) {
             repository.delete(cuenta.get());
@@ -55,7 +55,7 @@ public class CuentaServiceImpl implements CuentaService {
 
     @Override
     public Optional<Cuenta> obtenerCuentaPorId(long id) {
-        Optional<Cuenta> cuenta = repository.findById(id);
+        final Optional<Cuenta> cuenta = repository.findById(id);
         return Optional.ofNullable(cuenta.orElseThrow(() -> new CuentaException(CUENTA_NO_ENCONTRADA)));
     }
 

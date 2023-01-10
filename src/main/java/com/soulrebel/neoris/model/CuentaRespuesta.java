@@ -8,7 +8,6 @@ import lombok.Setter;
 import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Validated
 @Getter
@@ -16,13 +15,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MovimientoRespuesta {
+public class CuentaRespuesta {
 
     private Long id;
-    private LocalDate fecha;
-    private String tipoDeMovimiento;
-    private Double cantidad;
-    private BigDecimal saldo;
-    private Long idCuenta;
-
+    private String numeroDeCuenta;
+    private BigDecimal saldoInicial;
+    private Boolean estado;
+    private ClienteResponse clienteResponse;
 }

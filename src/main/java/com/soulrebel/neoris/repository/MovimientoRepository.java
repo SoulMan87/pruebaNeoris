@@ -1,7 +1,7 @@
 package com.soulrebel.neoris.repository;
 
 import com.soulrebel.neoris.entity.Movimiento;
-import com.soulrebel.neoris.model.MovimientoRespuesta;
+import com.soulrebel.neoris.model.MovimientosRespuesta;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -19,6 +19,6 @@ public interface MovimientoRepository extends CrudRepository<Movimiento, Long> {
             "JOIN cuenta.cliente cliente " +
             "JOIN cliente.idPesona persona " +
             "ORDER BY movimiento.fecha", nativeQuery = true)
-    List<MovimientoRespuesta> encontrarMovimientosPorFechaUsuario();
+    List<MovimientosRespuesta> encontrarMovimientosPorFechaUsuario();
 }
 

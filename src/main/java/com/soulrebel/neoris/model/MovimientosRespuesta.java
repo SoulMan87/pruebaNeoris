@@ -16,13 +16,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MovimientoRespuesta {
+public class MovimientosRespuesta {
 
-    private Long id;
     private LocalDate fecha;
+    private String nombre;
+    private String numeroDeCuenta;
+    private String tipoDeCuenta;
+    private BigDecimal saldoInicial;
+    private boolean estado;
     private String tipoDeMovimiento;
-    private Double cantidad;
     private BigDecimal saldo;
-    private Long idCuenta;
-
 }
