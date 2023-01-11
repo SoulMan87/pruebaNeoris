@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import static com.soulrebel.neoris.exception.Constantes.CERO;
 import static com.soulrebel.neoris.exception.Constantes.CREDITO;
@@ -56,13 +57,14 @@ public class MovimientoServiceImpl implements MovimientoService {
     }
 
     @Override
-    public void borrarMovimientoPorId(Long id) {
+    public Consumer<? super Movimiento> borrarMovimientoPorId(Long id) {
 
         final Movimiento movimiento = repository.findById(id)
                 .orElseThrow(() -> new MovimientoException(MOVIMIENTO_NO_ENCONTRADO));
 
         repository.delete(movimiento);
 
+        return null;
     }
 
     @Override
@@ -87,7 +89,7 @@ public class MovimientoServiceImpl implements MovimientoService {
         cuentaRepository.findById(idCuenta)
                 .filter(cuenta -> movimiento.getTipoMovimiento().equals(CREDITO) &&
                         movimiento.getValor().compareTo(BigDecimal.ZERO) > CERO ||
-                        movimiento.getTipoMovimiento().equals("debito") &&
+                        movimiento.getTipoMovimiento().equals(DEBITO) &&
                                 movimiento.getValor().compareTo(BigDecimal.ZERO) < CERO).ifPresentOrElse(
                         cuenta -> {
                             if (movimiento.getTipoMovimiento().equals(DEBITO)) {

@@ -1,26 +1,21 @@
 package com.soulrebel.neoris.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.validation.annotation.Validated;
 
-import java.math.BigDecimal;
-
-@Validated
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class CuentaRespuesta {
+@NoArgsConstructor
+public class ReporteRespuesta {
 
     private Long id;
     private String numeroDeCuenta;
     private String tipoDeCuenta;
-    private BigDecimal saldoInicial;
-    private Boolean estado;
-    private Long idCliente;
+    private Long saldoInicial;
+    private Long totalDebitos;
+    private Long totalCreditos;
+    private Long saldoFinal;
 }

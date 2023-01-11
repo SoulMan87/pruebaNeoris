@@ -1,28 +1,40 @@
 package com.soulrebel.neoris.controller;
 
+import com.soulrebel.neoris.model.ErrorResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.persistence.NoResultException;
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-
+@ControllerAdvice
+@Slf4j
 public class BaseController {
 
-    @ExceptionHandler(NoResultException.class)
-    public ResponseEntity<Map<String, String>> handleNoResultException(NoResultException noResultException
-            , HttpServletRequest request) {
-        Map<String, String> responseBody = new HashMap<>();
-        responseBody.put("error", noResultException.getMessage());
-        return new ResponseEntity<>(responseBody, HttpStatus.NOT_FOUND);
+    private static final Logger LOG = LoggerFactory.getLogger(BaseController.class);
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public final ResponseEntity<ErrorResponse> handleIllegalArgumentExceptions(IllegalArgumentException ex) {
+        LOG.error("IllegalArgumentException :  {}", ex.getMessage());
+        ErrorResponse error = new ErrorResponse("Request No Valido", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public final ResponseEntity<ErrorResponse> handleMethodArgumentNotValidExceptions(MethodArgumentNotValidException ex) {
+        LOG.error("MethodArgumentNotValidException :  {}", ex.getMessage());
+        ErrorResponse error = new ErrorResponse("Error de validación", ex.getBindingResult().getFieldError().getDefaultMessage());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleException(Exception exception, HttpServletRequest request) {
-        Map<String, String> responseBody = new HashMap<>();
-        responseBody.put("error", exception.getMessage());
-        return new ResponseEntity<>(responseBody, HttpStatus.INTERNAL_SERVER_ERROR);
+    public final ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex) {
+        LOG.error("handleAllExceptions :  {}", ex.getMessage());
+        ErrorResponse error = new ErrorResponse("Server Error",
+                "Un error ha ocurrido mientras se procesaba la respuesta");
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -7,20 +7,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.validation.annotation.Validated;
 
-import java.math.BigDecimal;
-
 @Validated
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CuentaRespuesta {
+public class PersonaResponse {
 
-    private Long id;
-    private String numeroDeCuenta;
-    private String tipoDeCuenta;
-    private BigDecimal saldoInicial;
-    private Boolean estado;
-    private Long idCliente;
+    private Long idPersona;
+    private String nombre;
+    private String genero;
+    private Integer edad;
+    private String identificacion;
+    private String direccion;
+    private String telefono;
 }

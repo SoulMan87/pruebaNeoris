@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import static com.soulrebel.neoris.exception.Constantes.CLIENTE_NO_ENCONTRADO;
 
@@ -52,7 +53,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public void borrarClientePorId(Long id) {
+    public Consumer<? super Cliente> borrarClientePorId(Long id) {
         final Optional<Cliente> cliente = repository.findById(id);
         if (cliente.isPresent()) {
             repository.delete(cliente.get());
@@ -60,6 +61,7 @@ public class ClienteServiceImpl implements ClienteService {
             throw new EntityNotFoundException(CLIENTE_NO_ENCONTRADO);
         }
 
+        return null;
     }
 
     @Override

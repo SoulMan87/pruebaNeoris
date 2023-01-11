@@ -1,9 +1,11 @@
 package com.soulrebel.neoris.service;
 
 import com.soulrebel.neoris.entity.Cuenta;
+import com.soulrebel.neoris.entity.Reporte;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public interface CuentaService {
 
@@ -13,9 +15,11 @@ public interface CuentaService {
 
     Optional<Cuenta> actualizarCuenta(long idCuenta, Cuenta cuenta);
 
-    void borrarCuentaPorId(Long id);
+    Consumer<? super Cuenta> borrarCuentaPorId(Long id);
 
     Optional<Cuenta> obtenerCuentaPorId(long id);
+
+    List<Reporte> obtenerCuentasRespotesDeCuentasPorFechas(String nombre, String fechaInicial, String fechaFinal);
 }
 
 

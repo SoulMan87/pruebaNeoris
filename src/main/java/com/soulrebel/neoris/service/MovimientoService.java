@@ -5,6 +5,7 @@ import com.soulrebel.neoris.model.MovimientosRespuesta;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 
 public interface MovimientoService {
@@ -15,7 +16,7 @@ public interface MovimientoService {
 
     Optional<Movimiento> actualizarMovimiento(long idMovimiento, Movimiento movimiento);
 
-    void borrarMovimientoPorId(Long id);
+    Consumer<? super Movimiento> borrarMovimientoPorId(Long id);
 
     Optional<Movimiento> obtenerMovimientoPorId(long id);
 

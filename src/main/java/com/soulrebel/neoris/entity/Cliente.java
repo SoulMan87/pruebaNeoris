@@ -1,8 +1,6 @@
 package com.soulrebel.neoris.entity;
 
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
@@ -14,8 +12,6 @@ import javax.persistence.Table;
 @PrimaryKeyJoinColumn(name = "clienteId")
 @Setter
 @Getter
-@NoArgsConstructor
-@Builder
 public class Cliente extends Persona {
     private String contrasena;
     private boolean estado;

@@ -74,20 +74,20 @@ WHERE p.nombre = 'Jose Lema';
 
 ---------creacion de movimientos------------------
 
-INSERT INTO Movimiento (date, tipoMovimiento, valor, saldo, numeroDeCuenta)
+INSERT INTO Movimiento (fecha, tipoMovimiento, valor, saldo, numeroDeCuenta)
 VALUES (:date, :tipoMovimiento, :valor, :saldo, :numeroDeCuenta);
 
 --------- movimientos----------------------------
 
-INSERT INTO Movimiento (date, tipoMovimiento, valor, saldo, numeroDeCuenta)
+INSERT INTO Movimiento (fecha, tipoMovimiento, valor, saldo, numeroDeCuenta)
 VALUES (:date, :tipoMovimiento, :valor, :saldo, :numeroDeCuenta);
 
-INSERT INTO Movimiento (date, tipoMovimiento, valor, saldo, numeroDeCuenta)
+INSERT INTO Movimiento (fecha, tipoMovimiento, valor, saldo, numeroDeCuenta)
 VALUES (CURDATE(), 'Retiro de 575', 100, 100, '478758');
 
 ---------- Listado de movimientos por fechas y por usuario ---------
 
-SELECT m.date,
+SELECT m.fecha,
        m.tipoMovimiento,
        m.valor,
        m.saldo,
@@ -105,9 +105,23 @@ ORDER BY m.date;
 
 ------------------------------------
 
-SELECT m.date, p.name, a.accountNumber, a.accountType, a.initialBalance, a.status,
-       m.movementType, m.balance
-FROM movement m
-         JOIN account a ON m.accountNumber = a.accountNumber
-         JOIN customer c ON a.customerId = c.customerId
-         JOIN person p ON c.customerId = p.customerId;
+SELECT movimiento.fecha, persona.nombre, cuenta.numeroDeCuenta, cuenta.tipoDeCuenta, cuenta.saldoInicial, cuenta.estado,
+       movimiento.tipoDeMovimiento, movimiento.saldo
+FROM Movimiento movimiento
+         JOIN Cuenta cuenta ON m.accountNumber = a.accountNumber
+         JOIN Cliente cliente ON cuenta.idCliente = cliente.idCliente
+         JOIN Persona personal ON cliente.idCliente = personal.idPersona;
+
+---------------Reporte Estado de cuenta------------
+
+SELECT c.idCliente as id, c.numeroDeCuenta, c.tipoDeCuenta, c.saldoInicial,
+       SUM(CASE WHEN m.tipoMovimiento = 'DEBITO' THEN m.valor ELSE 0 END) as totalDebitos,
+       SUM(CASE WHEN m.tipoMovimiento = 'CREDITO' THEN m.valor ELSE 0 END) as totalCreditos,
+       (c.saldoInicial + SUM(CASE WHEN m.tipoMovimiento = 'CREDITO' THEN m.valor ELSE -m.valor END)) as saldoFinal,
+       p.nombre as nombre
+FROM Cuenta c
+         JOIN Cliente cl ON c.idCliente = cl.idCliente
+         JOIN Persona p ON cl.idCliente = p.idPersona
+         JOIN Movimiento m ON c.numeroDeCuenta = m.numeroDeCuenta
+WHERE p.nombre = ?1 AND m.fecha BETWEEN ?2 AND ?3
+GROUP BY c.idCliente, c.numeroDeCuenta, c.tipoDeCuenta, c.saldoInicial;
