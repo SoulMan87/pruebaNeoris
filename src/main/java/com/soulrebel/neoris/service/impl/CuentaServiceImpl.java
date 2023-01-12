@@ -73,7 +73,7 @@ public class CuentaServiceImpl implements CuentaService {
             (String nombre, String fechaInicial, String fechaFinal) {
         return repository.obtenerReportes(nombre, fechaInicial, fechaFinal)
                 .stream()
-                //.map(this::toReporte)
+                .map((Reporte cuenta) -> toReporte(cuenta.getCuenta()))
                 .collect(Collectors.toUnmodifiableList());
     }
 
